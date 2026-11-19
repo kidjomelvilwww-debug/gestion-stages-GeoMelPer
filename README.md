@@ -1,1 +1,1 @@
-﻿# Version B — Conflit TP5
+﻿# Gestion des stages — Projet Informatique 2
