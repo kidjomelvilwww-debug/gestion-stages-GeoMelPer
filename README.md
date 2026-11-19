@@ -1,4 +1,4 @@
-﻿@"
+﻿
 # Gestion des stages — Projet Informatique 2 (L3 SIL)
 
 Application Web de gestion des stages et des soutenances universitaires.
