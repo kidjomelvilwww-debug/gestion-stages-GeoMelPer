@@ -1,1 +1,6 @@
-﻿out/
+﻿.env
+out/
+vendor/
+*.log
+sauvegarde.sql
+sauvegarde_test.sql
