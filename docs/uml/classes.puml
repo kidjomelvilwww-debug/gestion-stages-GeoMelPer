@@ -1,0 +1,64 @@
+@startuml
+skinparam classAttributeIconSize 0
+hide circle
+
+class Compte {
+  - id : int
+  - email : string {unique}
+  - motDePasseHash : string
+  - role : Role
+  - creeLe : datetime
+}
+
+class Etudiant {
+  - id : int
+  - nom : string
+  - prenom : string
+}
+
+class Entreprise {
+  - id : int
+  - nom : string
+  - ville : string
+}
+
+class Encadreur {
+  - id : int
+  - nom : string
+  - prenom : string
+}
+
+class DemandeStage {
+  - id : int
+  - statut : Statut
+  - motifRefus : string
+  - creeLe : datetime
+}
+
+class Soutenance {
+  - id : int
+  - dateHeure : datetime
+  - salle : string
+}
+
+enum Role {
+  ETUDIANT
+  RESPONSABLE
+  ADMIN
+}
+
+enum Statut {
+  BROUILLON
+  SOUMISE
+  VALIDEE
+  REFUSEE
+}
+
+Compte "1" -- "0..1" Etudiant 
+Etudiant "1" -- "1..*" DemandeStage
+DemandeStage "1..*" -- "1" Entreprise
+DemandeStage "0..1" -- "1" Encadreur 
+DemandeStage "0..1" -- "1" Soutenance 
+DemandeStage --> Statut
+Compte --> Role
+@enduml

@@ -1,0 +1,41 @@
+@startuml
+actor "Responsable / Admin" as U
+participant "Contrôleur" as C
+participant "Service\nDemandeService" as S
+participant "Repository" as R
+database "BDD" as DB
+
+U -> C : POST /api/demandes/{id}/gerer
+C -> C : 1. authentifier()
+alt session absente
+  C --> U : 401
+else
+  C -> R : 2. charger(id)
+  R -> DB : SELECT
+  DB --> R : demande
+  R --> C : demande
+  alt demande inexistante
+    C --> U : 404
+  else
+    C -> S : 3. autoriser(role)
+    alt role ∉ (RESPONSABLE, ADMIN)
+      S --> C : refus
+      C --> U : 403
+    else
+      S -> S : 4. vérifier statut = SOUMISE
+      alt transition interdite
+        S --> C : refus
+        C --> U : 409
+      else
+        alt action = Confirmer
+          S -> R : 5a. mettreAJour(VALIDEE)
+        else action = Refuser
+          S -> R : 5b. mettreAJour(REFUSEE + motif)
+        end
+        R -> DB : UPDATE
+        C --> U : 200 + demande à jour
+      end
+    end
+  end
+end
+@enduml

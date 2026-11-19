@@ -1,0 +1,25 @@
+@startuml
+actor "Étudiant" as U
+participant "Contrôleur" as C
+participant "Service\nCompteService" as S
+participant "Repository" as R
+database "BDD" as DB
+
+U -> C : GET /api/etudiant/compte
+C -> C : 1. authentifier()
+alt session absente
+  C --> U : 401
+else
+  C -> S : 2. verifierRole(ETUDIANT)
+  alt rôle insuffisant
+    S --> C : refus
+    C --> U : 403
+  else
+    C -> R : 3. chargerCompte(etudiantId)
+    R -> DB : SELECT compte + etudiant
+    DB --> R : compte
+    R --> C : compte
+    C --> U : 200 + compte + options (Soumettre / Consulter)
+  end
+end
+@enduml

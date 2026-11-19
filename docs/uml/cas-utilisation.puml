@@ -1,0 +1,53 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam usecaseBackgroundColor #E8F5E9
+skinparam usecaseBorderColor #2E7D32
+skinparam actorBackgroundColor #E3F2FD
+skinparam actorBorderColor #1565C0
+
+actor "Étudiant" as E
+actor "Responsable" as R
+actor "Administrateur" as A
+
+A -|> R
+
+rectangle "Système de gestion des stages" {
+  usecase "S'authentifier" as UC_AUTH
+
+  ' --- Étudiant ---
+  usecase "Gérer son compte" as UC_E1
+  usecase "Soumettre une demande" as UC_E2
+  usecase "Consulter une demande" as UC_E3
+
+  ' --- Responsable (+ Admin par héritage) ---
+  usecase "Gérer une demande" as UC_R1
+  usecase "Confirmer une demande" as UC_R2
+  usecase "Refuser une demande" as UC_R3
+  usecase "Programmer une soutenance" as UC_R4
+
+  ' --- Administrateur ---
+  usecase "Gérer les comptes" as UC_A1
+}
+
+' ===== Associations acteurs → cas pivots =====
+E --> UC_E1
+R --> UC_R1
+R --> UC_R4
+A --> UC_A1
+
+' ===== Authentification (include) =====
+UC_E1 ..> UC_AUTH : <<include>>
+UC_R1 ..> UC_AUTH : <<include>>
+UC_R4 ..> UC_AUTH : <<include>>
+UC_A1 ..> UC_AUTH : <<include>>
+
+' ===== Options de l'Étudiant (extend de Gérer son compte) =====
+UC_E2 ..> UC_E1 : <<extend>>
+UC_E3 ..> UC_E1 : <<extend>>
+
+' ===== Options du Responsable (extend de Gérer une demande) =====
+UC_R2 ..> UC_R1 : <<extend>>
+UC_R3 ..> UC_R1 : <<extend>>
+
+@enduml

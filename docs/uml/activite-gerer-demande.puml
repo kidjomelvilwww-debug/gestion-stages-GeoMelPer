@@ -1,0 +1,32 @@
+@startuml
+start
+:Authentifier l'utilisateur;
+if (Session valide ?) then (non)
+  :401 Non authentifié;
+  stop
+else (oui)
+  :Charger la demande;
+  if (Demande existe ?) then (non)
+    :404 Introuvable;
+    stop
+  else (oui)
+    if (Rôle RESPONSABLE ou ADMIN ?) then (non)
+      :403 Interdit;
+      stop
+    else (oui)
+      if (Statut = SOUMISE ?) then (non)
+        :409 Conflit de transition;
+        stop
+      else (oui)
+        if (Action = Confirmer ?) then (oui)
+          :Mettre à jour statut = VALIDEE;
+        else (non, Refuser)
+          :Mettre à jour statut = REFUSEE + motif;
+        endif
+        :200 OK;
+        stop
+      endif
+    endif
+  endif
+endif
+@enduml

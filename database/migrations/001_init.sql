@@ -1,0 +1,52 @@
+SET NAMES utf8mb4;
+
+CREATE TABLE compte (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  email VARCHAR(100) NOT NULL UNIQUE,
+  mot_de_passe_hash VARCHAR(255) NOT NULL,
+  role ENUM('ETUDIANT','RESPONSABLE','ADMIN') NOT NULL,
+  cree_le DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE etudiant (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  compte_id INT NOT NULL UNIQUE,
+  nom VARCHAR(60) NOT NULL,
+  prenom VARCHAR(60) NOT NULL,
+  FOREIGN KEY (compte_id) REFERENCES compte(id)
+);
+
+CREATE TABLE entreprise (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nom VARCHAR(80) NOT NULL,
+  ville VARCHAR(60)
+);
+
+CREATE TABLE encadreur (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nom VARCHAR(60) NOT NULL,
+  prenom VARCHAR(60) NOT NULL
+);
+
+CREATE TABLE demande_stage (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  etudiant_id INT NOT NULL,
+  entreprise_id INT NOT NULL,
+  encadreur_id INT NULL,
+  statut VARCHAR(10) NOT NULL DEFAULT 'BROUILLON'
+    CHECK (statut IN ('BROUILLON','SOUMISE','VALIDEE','REFUSEE')),
+  motif_refus VARCHAR(255) NULL,
+  cree_le DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (etudiant_id) REFERENCES etudiant(id),
+  FOREIGN KEY (entreprise_id) REFERENCES entreprise(id),
+  FOREIGN KEY (encadreur_id) REFERENCES encadreur(id)
+);
+
+CREATE TABLE soutenance (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  demande_id INT NOT NULL UNIQUE,
+  date_heure DATETIME NOT NULL,
+  salle VARCHAR(20),
+  FOREIGN KEY (demande_id) REFERENCES demande_stage(id),
+  CONSTRAINT uq_creneau UNIQUE (date_heure, salle)
+);
