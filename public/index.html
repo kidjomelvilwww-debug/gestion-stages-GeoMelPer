@@ -1,15 +1,90 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
-<head><meta charset="utf-8"><title>Dépôt de demande</title></head>
+<head>
+  <meta charset="utf-8">
+  <title>Dépôt de demande de stage</title>
+  <style>
+    
+    body {
+      background-color: #f3e8ff; 
+      font-family: Arial, sans-serif;
+      color: #333;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #e9d5ff; 
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    h1 {
+      color: #6b21a8; 
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #4c1d95;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      border: 1px solid #c084fc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    
+    button {
+      background-color: #22c55e; 
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #16a34a; 
+    }
+
+    #liste {
+      padding-left: 20px;
+    }
+
+    #liste li {
+      background-color: white;
+      padding: 10px;
+      margin-bottom: 5px;
+      border-radius: 4px;
+      border-left: 4px solid #9333ea; 
+    }
+
+    #erreur {
+      color: #dc2626;
+      font-weight: bold;
+      margin: 0;
+      min-height: 20px;
+    }
+  </style>
+</head>
 <body>
-<h1>Déposer une demande</h1>
-<form id="form-depot">
-  <label for="entreprise">Entreprise</label>
-  <input id="entreprise" name="entreprise" type="text" required>
-  <p id="erreur" role="alert"></p>
-  <button type="submit">Envoyer</button>
-</form>
-<ul id="liste"></ul>
-<script src="app.js"></script>
+  <h1>Déposer une demande</h1>
+  <form id="form-depot">
+    <label for="entreprise">Entreprise</label>
+    <input id="entreprise" name="entreprise" type="text" required placeholder="Nom de l'entreprise">
+    <p id="erreur" role="alert"></p>
+    <button type="submit">Envoyer</button>
+  </form>
+  <ul id="liste"></ul>
+  <script src="app.js"></script>
 </body>
 </html>

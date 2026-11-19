@@ -8,7 +8,7 @@ spl_autoload_register(function ($class) {
 
 session_start();
 
-// Bloc de test temporaire (? retirer apr?s les tests)
+// Bloc temporaire pour les tests
 if (isset($_GET['login_test'])) {
     $_SESSION['user_id'] = (int)$_GET['login_test'];
     echo json_encode(['session' => $_SESSION['user_id']]);
