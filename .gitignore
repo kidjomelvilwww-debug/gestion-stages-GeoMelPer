@@ -4,3 +4,4 @@ vendor/
 *.log
 sauvegarde.sql
 sauvegarde_test.sql
+.vscode/
